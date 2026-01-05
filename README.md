@@ -1,54 +1,90 @@
-CS452 Flight Pricing & Dynamic Revenue Optimization
-This project implements a comprehensive Machine Learning pipeline designed for an Airline Revenue Management scenario. It predicts ticket price categories (Cheap, Normal, Expensive) and features a Dynamic Pricing Engine that adjusts fares based on real-time factors like demand and user behavior.
+CS452 – Flight Pricing & Dynamic Revenue Optimization
 
-Project Highlights
-To meet the CS452 course requirements, the following steps were implemented:
+In this project, I modeled an airline revenue management scenario using Machine Learning techniques.
+Instead of directly predicting ticket prices, the main objective is to classify flight tickets into three price categories: Cheap, Normal, and Expensive, and then demonstrate how this output can be used in a dynamic pricing setting.
 
-Feature Engineering: Derived high-value features such as urgency_score and simulated user interaction metrics.
+The entire workflow is implemented in a single Jupyter Notebook, following an end-to-end Machine Learning pipeline that meets the requirements of the CS452 course.
 
-Target Binning: Transformed continuous price data into discrete categories (0: Low, 1: Mid, 2: High) using statistical quantiles.
+Project Overview
 
-Imbalanced Learning: Addressed class imbalance in "Premium" tickets using SMOTE (Synthetic Minority Over-sampling Technique).
+The following steps were implemented as part of the project:
 
-Statistical Comparison: Validated model superiority (e.g., XGBoost vs. Random Forest) using the McNemar Test.
+Feature Engineering:
+New informative features were derived from the raw dataset, including:
 
-Dynamic Pricing Demo: A rule-based simulation showing how the model's output combined with "User Urgency" affects final ticket pricing in real-time.
+An urgency score based on the remaining time to departure
+
+Simulated user interaction features representing how many times a user revisits the flight page
+
+Target Binning:
+The continuous ticket price variable was transformed into three discrete classes using statistical quantiles:
+
+0 → Cheap
+
+1 → Normal
+
+2 → Expensive
+This converts the problem into a multi-class classification task.
+
+Handling Class Imbalance:
+Since “Expensive” tickets appear less frequently in the dataset, SMOTE (Synthetic Minority Over-sampling Technique) was applied during training to balance the class distribution.
+
+Model Comparison:
+Decision Tree, Random Forest, and XGBoost models were trained using the same data split and evaluated using classification metrics.
+
+Statistical Validation:
+To determine whether the performance difference between the best-performing models was statistically significant, the McNemar Test was applied.
+
+Dynamic Pricing Demonstration:
+A rule-based dynamic pricing simulation was created by combining the model’s predicted price category with user urgency indicators.
+This section demonstrates how Machine Learning predictions could be integrated into a real-time airline pricing system.
 
 File Structure
-CS452_Flight_Pricing.ipynb: The primary Jupyter Notebook containing the full end-to-end workflow.
 
-data/Data_Train.csv: The core flight booking dataset.
+CS452_Flight_Pricing.ipynb
+The main Jupyter Notebook containing the full workflow, including EDA, feature engineering, model training, evaluation, and the dynamic pricing demo.
 
-requirements.txt: List of Python dependencies required to run the project.
+data/Data_Train.csv
+The primary flight booking dataset used in the project.
+
+requirements.txt
+A list of Python dependencies required to run the project.
 
 Setup & Execution (Windows / PowerShell)
-Navigate to the project folder (OneDrive example path):
 
-```powershell
+Navigate to the project directory (example OneDrive path):
+
 cd "$env:USERPROFILE\OneDrive\Masaüstü\CS452_Project"
-```
+
 
 Create and activate a virtual environment:
 
-```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-```
 
-Install the Jupyter Kernel:
 
-```powershell
+Install the Jupyter kernel:
+
 python -m ipykernel install --user --name cs452_project --display-name "Python 3 (CS452 Project)"
-```
 
-Launch the Project:
 
-```powershell
+Launch the notebook environment:
+
 jupyter lab
-```
 
-Open `CS452_Flight_Pricing.ipynb`, ensure the kernel is set to **Python 3 (CS452 Project)**, then **Run All** to execute the pipeline end-to-end.
+
+Open CS452_Flight_Pricing.ipynb, select the kernel
+Python 3 (CS452 Project), and run Run All to execute the full pipeline.
 
 Important Note
-The original dataset lacks real-time fields (e.g., `days_left`, user revisit counts, live occupancy), so these are **simulated inside the notebook** to illustrate the airline pricing scenario and dynamic pricing demo.
+
+The original dataset does not include real-time operational variables such as:
+
+days remaining until departure
+
+user revisit counts
+
+live seat occupancy information
+
+Therefore, these features are simulated within the notebook to demonstrate the logic of an airline dynamic pricing system in an academic setting.
